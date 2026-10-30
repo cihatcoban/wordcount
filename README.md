@@ -12,7 +12,6 @@
 ## 📋 İçindekiler
 - [Öne Çıkan Özellikler](#-öne-çıkan-özellikler)
 - [Mimari Tasarım (Keystone Clean Architecture)](#-mimari-tasarım-keystone-clean-architecture)
-- [Eski Repo ile Karşılaştırmalı Kıdemli Mühendislik Değerlendirmesi](#-eski-repo-ile-karşılaştırmalı-kıdemli-mühendislik-değerlendirmesi)
 - [Proje Dosya Yapısı](#-proje-dosya-yapısı)
 - [Hızlı Başlangıç (Quickstart)](#-hızlı-başlangıç-quickstart)
 - [Web Arayüzü & Ekranlar](#-web-arayüzü--ekranlar)
@@ -79,19 +78,6 @@ Sistem, bağımlılıkların yalnızca içeriye (merkeze) doğru aktığı katma
 
 ---
 
-## 🔍 Eski Repo ile Karşılaştırmalı Kıdemli Mühendislik Değerlendirmesi
-
-| İnceleme Alanı | Eski Öğrenci Kodu (`wordcount-main`) | Güncel Standartlardaki Kod (`wordcount-v2`) |
-|---|---|---|
-| **Yazılım Mimarisi** | Tek dosyada (`app.py`) routing, view, veri işleme birbirine karışmış monolitik yapı. | Keystone Clean Architecture: Domain, Application, Infrastructure ve Presentation net ayrılmış. |
-| **Güvenlik** | `app.run(debug=True, host='0.0.0.0')` Werkzeug RCE güvenlik zafiyeti; `.gitignore` içinde `.pem` izi; bellek tüketim DoS açığı. | Non-root container, payload boyut kısıtlaması, güvenli env yönetimi, güvenli exception middleware. |
-| **Algoritmik Doğruluk** | `len(text.split())` noktalama işaretlerini kelimeye yapıştırır, unicode harfleri ve tireli kelimeleri bozar. | Unicode-aware regex tokenizer, hece analizi, kısaltma korumalı cümle bölücü, Flesch formülleri. |
-| **Hata Yönetimi** | `request.form['text']` anahtar bulunamadığında yakalanmayan `KeyError` (500 Internal Error) üretir. | Pydantic şema doğrulaması, DTO seviyesinde kısıt kontrolü ve standart HTTP 400 hata yanıtları. |
-| **Kullanıcı Deneyimi (UX)** | 1990'lardan kalma stilizasyonsuz HTML form; her hesaplamada sayfa yenileme (`POST /wordcount`). | Reaktif SPA hissi veren dinamik arayüz; anlık canlı sayaçlar, dosya yükleme, dark mode, detaylı kartlar. |
-| **Test Edilebilirlik** | Sıfır test dosyası. | 27 adet birim, entegrasyon ve CLI testinden oluşan tam otomatik test paketi (`unittest` / `pytest`). |
-| **DevOps & CI/CD** | Paket yöneticisi, Dockerfile veya pipeline yok. | `pyproject.toml`, multi-stage `Dockerfile`, `docker-compose.yml`, `Makefile`, GitHub Actions CI. |
-
----
 
 ## 📁 Proje Dosya Yapısı
 
