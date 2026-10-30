@@ -19,6 +19,11 @@
                 </div>
             </div>
             <div class="header-actions">
+                <button id="aboutBtn" class="btn btn-secondary btn-sm" title="About & Architecture">ℹ️ About</button>
+                <a href="https://github.com/cihatcoban/wordcount" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="GitHub Repository">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: text-bottom; margin-right: 4px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                    GitHub
+                </a>
                 <a href="/docs" target="_blank" class="btn btn-secondary btn-sm" title="OpenAPI Documentation">API Docs</a>
                 <button id="themeToggle" class="btn btn-icon" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
                     <span id="themeIcon">☀️</span>
@@ -33,9 +38,96 @@
         </div>
     </main>
 
+    <!-- About Modal Dialog -->
+    <div id="aboutModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-wrapper">
+                    <span class="modal-badge">Architecture Showcase</span>
+                    <h2 id="aboutTitle">About WordCount Pro</h2>
+                </div>
+                <button id="closeAboutBtn" class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="about-hero">
+                    <p class="about-lead">
+                        From a student-era monolith to an <strong>enterprise-grade text analytics and readability engine</strong> built with <strong>Keystone Clean Architecture</strong> principles.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h3>🏛️ Architectural Pillars (Keystone Clean Architecture)</h3>
+                    <div class="pillars-grid">
+                        <div class="pillar-card">
+                            <h4>Pure Domain Layer</h4>
+                            <p>Linguistic tokenization, syllable heuristics, and Flesch readability formulas built with pure Python. Zero external runtime dependencies.</p>
+                        </div>
+                        <div class="pillar-card">
+                            <h4>Application Use Cases</h4>
+                            <p>Strongly-typed DTOs, strict input boundaries (DoS mitigation), and execution performance telemetry.</p>
+                        </div>
+                        <div class="pillar-card">
+                            <h4>Hexagonal Adapters</h4>
+                            <p>Ports and Adapters decouple delivery: identical domain logic powers both the async FastAPI Web API and the terminal CLI tool.</p>
+                        </div>
+                        <div class="pillar-card">
+                            <h4>Production Hardening</h4>
+                            <p>Twelve-Factor settings, structured logging, multi-stage non-root Docker security, and automated multi-version CI pipelines.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3>📊 Computed Metrics</h3>
+                    <ul class="about-list">
+                        <li><strong>Words, Unique Vocabulary & Density:</strong> Unicode-aware tokenization handling contractions and multilingual text (including Turkish characters).</li>
+                        <li><strong>Readability Scores:</strong> Flesch Reading Ease Index & Flesch-Kincaid Grade Level complexity categorization.</li>
+                        <li><strong>Reading & Speaking Times:</strong> Standardized 225 WPM silent reading and 135 WPM presentation speech rate models.</li>
+                        <li><strong>Keyword Density Analysis:</strong> Relative frequency distribution with optional English and Turkish stopword suppression.</li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <h3>🛠️ Technology Stack</h3>
+                    <div class="tech-tags">
+                        <span class="tag">Python 3.11+</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Starlette</span>
+                        <span class="tag">Pydantic</span>
+                        <span class="tag">Jinja2</span>
+                        <span class="tag">Vanilla JS (Reactive)</span>
+                        <span class="tag">Docker (Non-Root)</span>
+                        <span class="tag">GitHub Actions CI</span>
+                        <span class="tag">Pytest / Unittest</span>
+                        <span class="tag">Ruff & MyPy</span>
+                    </div>
+                </div>
+
+                <div class="about-section author-section">
+                    <h3>👨‍💻 Author & Repository</h3>
+                    <p>Designed and maintained by <strong>Cihat Çoban</strong>.</p>
+                    <div class="about-links">
+                        <a href="https://github.com/cihatcoban/wordcount" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                            ⭐ Star on GitHub
+                        </a>
+                        <a href="/docs" target="_blank" class="btn btn-secondary btn-sm">
+                            📖 OpenAPI Interactive Docs
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <span class="text-muted text-sm">Keyboard Shortcut: Press <kbd>Esc</kbd> to close</span>
+                <button id="closeAboutFooterBtn" class="btn btn-secondary btn-sm">Close</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="app-footer">
         <div class="container footer-container">
-            <p>© 2026 WordCount Pro • Clean Architecture with Keystone Principles • Production Grade</p>
+            <p>© 2026 WordCount Pro • Crafted by <strong><a href="https://github.com/cihatcoban" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">Cihat Çoban</a></strong> • Keystone Clean Architecture</p>
         </div>
     </footer>
 

@@ -49,6 +49,12 @@
     const samplesMenu = document.getElementById('samplesMenu');
     const toast = document.getElementById('toast');
 
+    // About Modal Elements
+    const aboutBtn = document.getElementById('aboutBtn');
+    const aboutModal = document.getElementById('aboutModal');
+    const closeAboutBtn = document.getElementById('closeAboutBtn');
+    const closeAboutFooterBtn = document.getElementById('closeAboutFooterBtn');
+
     let lastAnalysisResult = null;
     let debounceTimer = null;
 
@@ -73,6 +79,32 @@
         localStorage.setItem('wc_theme', nextTheme);
         themeIcon.textContent = nextTheme === 'dark' ? '☀️' : '🌙';
     });
+
+    // About Modal Handlers
+    function openAboutModal() {
+        if (aboutModal) {
+            aboutModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeAboutModal() {
+        if (aboutModal) {
+            aboutModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (aboutBtn) aboutBtn.addEventListener('click', openAboutModal);
+    if (closeAboutBtn) closeAboutBtn.addEventListener('click', closeAboutModal);
+    if (closeAboutFooterBtn) closeAboutFooterBtn.addEventListener('click', closeAboutModal);
+    if (aboutModal) {
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal) {
+                closeAboutModal();
+            }
+        });
+    }
 
     // Toast Notification Helper
     function showToast(message, duration = 3000) {
@@ -333,6 +365,8 @@
         } else if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             clearBtn.click();
+        } else if (e.key === 'Escape') {
+            closeAboutModal();
         }
     });
 
