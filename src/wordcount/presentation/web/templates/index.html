@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="analyzer-grid">
+    <!-- Left Column: Input and Controls -->
+    <section class="card input-section">
+        <div class="card-header">
+            <div class="card-title">
+                <h2>Text Workspace</h2>
+                <span class="badge" id="liveStatus">Ready</span>
+            </div>
+            <div class="toolbar">
+                <label for="fileUpload" class="btn btn-secondary btn-sm" title="Upload a .txt or .md file">
+                    📁 Upload File
+                </label>
+                <input type="file" id="fileUpload" accept=".txt,.md,.rtf,.csv" style="display: none;">
+                
+                <div class="dropdown">
+                    <button id="samplesBtn" class="btn btn-secondary btn-sm">📜 Samples ▾</button>
+                    <div id="samplesMenu" class="dropdown-menu hidden">
+                        <button class="dropdown-item" data-sample="tech">Software Architecture</button>
+                        <button class="dropdown-item" data-sample="classic">Shakespeare Soliloquy</button>
+                        <button class="dropdown-item" data-sample="tr">Türkçe Metin Örneği</button>
+                    </div>
+                </div>
+
+                <button id="clearBtn" class="btn btn-secondary btn-sm" title="Clear text (Ctrl+K)">🗑️ Clear</button>
+            </div>
+        </div>
+
+        <div class="editor-wrapper">
+            <textarea 
+                id="textInput" 
+                placeholder="Type, paste, or upload text here to analyze in real-time..."
+                rows="14" 
+                maxlength="{{ max_chars }}"
+                spellcheck="false"
+                autofocus
+            ></textarea>
+            
+            <div class="editor-footer">
+                <div class="live-counter">
+                    <span>Words: <strong id="liveWords">0</strong></span>
+                    <span>Characters: <strong id="liveChars">0</strong></span>
+                    <span>Sentences: <strong id="liveSentences">0</strong></span>
+                </div>
+                <div class="char-limit">
+                    <span id="charCount">0</span> / {{ max_chars }}
+                </div>
+            </div>
+        </div>
+
+        <div class="options-bar">
+            <div class="option-item">
+                <input type="checkbox" id="filterStopwords">
+                <label for="filterStopwords">Filter common stopwords</label>
+            </div>
+            <div class="option-item">
+                <label for="topKeywordsCount">Keywords:</label>
+                <select id="topKeywordsCount">
+                    <option value="5">Top 5</option>
+                    <option value="10" selected>Top 10</option>
+                    <option value="15">Top 15</option>
+                    <option value="20">Top 20</option>
+                </select>
+            </div>
+            <button id="analyzeBtn" class="btn btn-primary" title="Execute Deep Analysis (Ctrl+Enter)">
+                ⚡ Run Deep Analysis
+            </button>
+        </div>
+    </section>
+
+    <!-- Right Column: Metrics & Analytics Dashboard -->
+    <section class="metrics-section">
+        <!-- Primary KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-label">TOTAL WORDS</span>
+                <span class="kpi-value" id="kpiWords">0</span>
+                <span class="kpi-sub" id="kpiUnique">0 unique (0% density)</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">CHARACTERS</span>
+                <span class="kpi-value" id="kpiChars">0</span>
+                <span class="kpi-sub" id="kpiCharsNoSpace">0 non-whitespace</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">READING TIME</span>
+                <span class="kpi-value" id="kpiReadTime">0 sec</span>
+                <span class="kpi-sub" id="kpiSpeakTime">Speaking: 0 sec</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">READABILITY SCORE</span>
+                <span class="kpi-value" id="kpiFlesch">-</span>
+                <span class="kpi-sub" id="kpiGrade">Grade: -</span>
+            </div>
+        </div>
+
+        <!-- Detail Cards -->
+        <div class="card detail-card">
+            <div class="card-header">
+                <h3>Linguistic Breakdown</h3>
+                <button id="copyJsonBtn" class="btn btn-secondary btn-sm" title="Copy full report as JSON">📋 Copy JSON</button>
+            </div>
+            <div class="stats-table">
+                <div class="stat-row">
+                    <span class="stat-name">Sentences:</span>
+                    <strong class="stat-value" id="statSentences">0</strong>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Paragraphs:</span>
+                    <strong class="stat-value" id="statParagraphs">0</strong>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Avg. Sentence Length:</span>
+                    <strong class="stat-value" id="statAvgSentence">0 words</strong>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Avg. Word Length:</span>
+                    <strong class="stat-value" id="statAvgWord">0 chars</strong>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Longest Word:</span>
+                    <strong class="stat-value" id="statLongest">-</strong>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Reading Level:</span>
+                    <strong class="stat-value" id="statLevel">-</strong>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Complexity Note:</span>
+                    <span class="stat-value text-muted" id="statNotes">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Analysis Latency:</span>
+                    <strong class="stat-value text-accent" id="statLatency">0 ms</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keywords Frequency Card -->
+        <div class="card detail-card">
+            <div class="card-header">
+                <h3>Top Keyword Density</h3>
+                <span class="badge" id="keywordsCountBadge">0 found</span>
+            </div>
+            <div class="keywords-container" id="keywordsList">
+                <p class="empty-hint">Enter or paste text to inspect keyword distribution.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast hidden"></div>
+{% endblock %}
