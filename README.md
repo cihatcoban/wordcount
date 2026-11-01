@@ -5,7 +5,6 @@
 [![Architecture](https://img.shields.io/badge/Architecture-Keystone%20Clean%20Architecture-purple)](#mimari-tasar%C4%B1m-keystone-clean-architecture)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-> Öğrencilik yıllarında yazılmış monolitik, kırılgan ve güvenlik açıkları barındıran basit bir Python betiğinden, **modern endüstri standartlarında**, **Keystone Temiz Mimari (Clean Architecture)** prensiplerine sahip, reaktif web arayüzlü ve tam kapsamlı test güvenceli bir analiz motoruna dönüşüm.
 
 ---
 
